@@ -2,6 +2,9 @@ package main
 
 import (
 	"github.com/labstack/echo/v4"
+	"test_crud/delivery/http"
+	"test_crud/repository/postgres"
+	"test_crud/usecase"
 
 	"database/sql"
 	"fmt"
@@ -27,12 +30,11 @@ func init() {
 
 func main() {
 	fmt.Println("Welcome to the server ")
+
 	e := echo.New()
-	ar := _articleRepo.NewMysqlArticleRepository(dbConn)
+	ar := postgres.NewPostgresArticleRepository(conn)
+	au := usecase.NewArticleUsecase(ar)
+	http.NewArticleHandler(e, au)
 
-
-	//e.GET("/articles", handlers.GetArticles)
-	e.Start(":8080")
+	fmt.Println(e.Start(":8080"))
 }
-
-
