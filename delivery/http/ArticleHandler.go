@@ -16,14 +16,14 @@ func NewArticleHandler(e *echo.Echo, articleUsecase models.ArticleUsecase) {
 	handler := &ArticleHandler{
 		AUsecase: articleUsecase,
 	}
-	e.GET("/articles", handler.GetArticles)
-	e.POST("/articles", handler.CreateArticle)
+	e.GET("/articles", handler.GetAll)
+	e.POST("/articles", handler.Create)
 	//e.GET("/articles/:id", handler.GetByID)
 	e.DELETE("/articles/:id", handler.Delete)
+	e.PUT("/articles", handler.Update)
 }
 
-// FetchArticle will fetch the article based on given params
-func (a *ArticleHandler) GetArticles(c echo.Context) error {
+func (a *ArticleHandler) GetAll(c echo.Context) error {
 	listArr, err := a.AUsecase.Get()
 	if err != nil {
 		log.Fatal("error while getting article: ", err)
@@ -31,7 +31,7 @@ func (a *ArticleHandler) GetArticles(c echo.Context) error {
 	return c.JSON(http.StatusOK, listArr)
 }
 
-func (a *ArticleHandler) CreateArticle(c echo.Context) error {
+func (a *ArticleHandler) Create(c echo.Context) error {
 	article := new(models.Article)
 	if err := c.Bind(&article); err != nil {
 		return err
@@ -54,4 +54,16 @@ func (a *ArticleHandler) Delete(c echo.Context) error {
 		return c.JSON(http.StatusInternalServerError, err.Error())
 	}
 	return c.NoContent(http.StatusNoContent)
+}
+
+func (a *ArticleHandler) Update(c echo.Context) error {
+	article := new(models.Article)
+	if err := c.Bind(&article); err != nil {
+		return err
+	}
+	err := a.AUsecase.Update(article)
+	if err != nil {
+		return c.JSON(http.StatusBadRequest, err)
+	}
+	return c.JSON(http.StatusOK, "Article has been successfully updated")
 }

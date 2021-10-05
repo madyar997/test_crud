@@ -68,3 +68,16 @@ func (p *postgresArticleRepository) Delete(id int64) error {
 	}
 	return nil
 }
+
+func (p *postgresArticleRepository) Update(ar *models.Article) error {
+	query := `UPDATE "articles" set author=$1, title=$2, body=$3, created_on=$4 WHERE id = $5`
+	stmt, err := p.Conn.Prepare(query)
+	if err != nil {
+		return err
+	}
+	_, err = stmt.Exec(ar.Author, ar.Title, ar.Body, ar.CreatedOn, ar.Id)
+	if err != nil {
+		return err
+	}
+	return nil
+}

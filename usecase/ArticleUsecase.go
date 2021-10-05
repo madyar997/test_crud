@@ -34,3 +34,11 @@ func (a articleUsecase) Delete(id int64) error {
 	}
 	return nil
 }
+
+func (a articleUsecase) Update(article *models.Article) error {
+	err := a.articleRepo.Update(article)
+	if err != nil {
+		return err
+	}
+	return nil
+}

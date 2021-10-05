@@ -16,10 +16,12 @@ type ArticleRepository interface {
 	Get() (res []Article, err error)
 	Create(a *Article) error
 	Delete(id int64) error
+	Update(ar *Article) error
 }
 
 type ArticleUsecase interface {
 	Get() ([]Article, error)
 	Create(a *Article) error
 	Delete(id int64) error
+	Update(ar *Article) error
 }
