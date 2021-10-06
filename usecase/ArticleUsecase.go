@@ -42,3 +42,13 @@ func (a articleUsecase) Update(article *models.Article) error {
 	}
 	return nil
 }
+
+func (a articleUsecase) GetByAuthorId(authorId int64) ([]models.Article, error) {
+	res, err := a.articleRepo.GetByAuthorId(authorId)
+	return res, err
+}
+
+func (a articleUsecase) GetById(id int64) (models.Article, error) {
+	res, err := a.articleRepo.GetById(id)
+	return res, err
+}

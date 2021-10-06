@@ -17,8 +17,9 @@ func NewArticleHandler(e *echo.Echo, articleUsecase models.ArticleUsecase) {
 		AUsecase: articleUsecase,
 	}
 	e.GET("/articles", handler.GetAll)
+	e.GET("/articles/:id", handler.getById)
+	e.GET("articles/author/:id", handler.getByAuthorId)
 	e.POST("/articles", handler.Create)
-	//e.GET("/articles/:id", handler.GetByID)
 	e.DELETE("/articles/:id", handler.Delete)
 	e.PUT("/articles", handler.Update)
 }
@@ -66,4 +67,30 @@ func (a *ArticleHandler) Update(c echo.Context) error {
 		return c.JSON(http.StatusBadRequest, err)
 	}
 	return c.JSON(http.StatusOK, "Article has been successfully updated")
+}
+
+func (a *ArticleHandler) getByAuthorId(c echo.Context) error {
+	idP, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "Please specify the id parameter")
+	}
+	id := int64(idP)
+	res, err := a.AUsecase.GetByAuthorId(id)
+	if err != nil {
+		log.Fatal("error while getting article: ", err)
+	}
+	return c.JSON(http.StatusOK, res)
+}
+
+func (a *ArticleHandler) getById(c echo.Context) error {
+	idP, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, "Please specify the id parameter")
+	}
+	id := int64(idP)
+	res, err := a.AUsecase.GetById(id)
+	if err != nil {
+		log.Fatal("error while getting article: ", err)
+	}
+	return c.JSON(http.StatusOK, res)
 }

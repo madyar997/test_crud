@@ -29,12 +29,19 @@ func init() {
 }
 
 func main() {
-	fmt.Println("Welcome to the server ")
-
 	e := echo.New()
+
 	ar := postgres.NewPostgresArticleRepository(conn)
 	au := usecase.NewArticleUsecase(ar)
 	http.NewArticleHandler(e, au)
+
+	authorRepository := postgres.NewPostgresAuthorRepository(conn)
+	authorUsecase := usecase.NewAuthorUsecase(authorRepository)
+	http.NewAuthorHandler(e, authorUsecase)
+
+	commentRepository := postgres.NewPostgresCommentRepository(conn)
+	commentUsecase := usecase.NewCommentUsecase(commentRepository)
+	http.NewCommentHandler(e, commentUsecase)
 
 	fmt.Println(e.Start(":8080"))
 }
