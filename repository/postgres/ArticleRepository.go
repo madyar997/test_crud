@@ -37,7 +37,7 @@ func (p *postgresArticleRepository) Get() (res []models.Article, err error) {
 }
 
 func (p *postgresArticleRepository) Create(a *models.Article) error {
-	query := `INSERT INTO "articles" (id, author_id, title, body, created_on) VALUES ($1, $2, $3, $4, $5)`
+	query := `INSERT INTO "articles" VALUES ($1, $2, $3, $4, $5)`
 	stmt, err := p.Conn.Prepare(query)
 	if err != nil {
 		return err
