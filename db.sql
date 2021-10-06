@@ -1,6 +1,6 @@
+DROP TABLE IF EXISTS comments;
 DROP TABLE IF EXISTS articles;
 DROP TABLE IF EXISTS authors;
-DROP TABLE IF EXISTS comments;
 
 create table authors
 (
@@ -27,4 +27,16 @@ CREATE TABLE comments
     article_id bigint       not null,
     foreign key (article_id)
         references articles (id)
-)
+);
+
+insert into authors VALUES (1, 'Author 1 FirstName', 'Author 1 LastName', 'author1@gmail.com');
+insert into authors VALUES (2, 'Author 2 FirstName', 'Author 2 LastName', 'author2@gmail.com');
+insert into authors VALUES (3, 'Author 3 FirstName', 'Author 2 LastName', 'author3@gmail.com');
+
+insert into articles values (1, 1, 'Article 1 Title', 'article 1 Body', '06.10.2021');
+insert into articles values (2, 2, 'Article 2 Title', 'article 2 Body', '06.10.2021');
+insert into articles values (3, 2, 'Article 2 Title', 'article 2 Body', '06.10.2021');
+
+insert into comments values (1, 'comment 1 content', 1);
+insert into comments values (2, 'comment 2 content', 2);
+insert into comments values (3, 'comment 3 content', 3);
