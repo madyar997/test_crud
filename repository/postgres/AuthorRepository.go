@@ -17,7 +17,7 @@ func NewPostgresAuthorRepository(Conn *sql.DB) models.AuthorRepository {
 func (p *postgresAuthorRepository) Get() (a []models.Author, err error) {
 	var author models.Author
 	var authors []models.Author
-	query := `select id, first_name, last_name, email from authors`
+	query := `SELECT id, first_name, last_name, email FROM authors`
 	rows, err := p.Conn.Query(query)
 	if err != nil {
 		log.Fatal(err)
