@@ -1,5 +1,6 @@
 # test_crud
-test project for goland developer position in Sberbank 
+test project for goland developer position in Sberbank
+
 CRUD application
 REST
 Unit Tests
